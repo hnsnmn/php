@@ -37,7 +37,7 @@
         // read current record's data 
         try {
             // prepare select query 
-            $query = "SELECT id, name, description, price FROM products WHERE id = ? LIMIT 0,1";
+            $query = "SELECT id, name, description, image, price FROM products WHERE id = ? LIMIT 0,1";
             $stmt = $con->prepare($query);
 
             // this is the first question mark 
@@ -53,6 +53,7 @@
             $name = $row['name'];
             $description = $row['description'];
             $price = $row['price'];
+            $image = htmlspecialchars($row['image'], ENT_QUOTES);
         } catch(PDOException $exception) {
             die("ERROR: " . $exception->getMessage());
         }
@@ -70,6 +71,12 @@
             <tr>
                 <td>Price</td>
                 <td><?php echo htmlspecialchars($price, ENT_QUOTES); ?></td>
+            </tr>
+            <tr>
+                <td>Image</td>
+                <td>
+                    <?php echo $image ? "<img src='uploads/{$image}' style='width:300px;' />" : "No image found."; ?>
+                </td>
             </tr>
             <tr>
                 <td></td>
